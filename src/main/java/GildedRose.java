@@ -32,74 +32,51 @@ public class GildedRose {
 
     void updateQuality()
     {
-        for (int i = 0; i < items.size(); i++)
-        {
-            if ((!AGED_BRIE.equals(items.get(i).getName())) && !BACKSTAGE_PASSES.equals(items.get(i).getName()))
-            {
-                if (items.get(i).getQuality() > 0)
-                {
-                    if (!SULFURAS_HAND_OF_RAGNAROS.equals(items.get(i).getName()))
-                    {
-                        items.get(i).setQuality(items.get(i).getQuality() - 1);
-                    }
-                }
-            }
-            else
-            {
-                if (items.get(i).getQuality() < 50)
-                {
-                    items.get(i).setQuality(items.get(i).getQuality() + 1);
+        for (Item item : items) {
+            if ((AGED_BRIE.equals(item.getName())) || BACKSTAGE_PASSES.equals(item.getName())) {
+                if (item.getQuality() < 50) {
+                    item.setQuality(item.getQuality() + 1);
 
-                    if (BACKSTAGE_PASSES.equals(items.get(i).getName()))
-                    {
-                        if (items.get(i).getSellIn() < 11)
-                        {
-                            if (items.get(i).getQuality() < 50)
-                            {
-                                items.get(i).setQuality(items.get(i).getQuality() + 1);
+                    if (BACKSTAGE_PASSES.equals(item.getName())) {
+                        if (item.getSellIn() < 11) {
+                            if (item.getQuality() < 50) {
+                                item.setQuality(item.getQuality() + 1);
                             }
                         }
 
-                        if (items.get(i).getSellIn() < 6)
-                        {
-                            if (items.get(i).getQuality() < 50)
-                            {
-                                items.get(i).setQuality(items.get(i).getQuality() + 1);
+                        if (item.getSellIn() < 6) {
+                            if (item.getQuality() < 50) {
+                                item.setQuality(item.getQuality() + 1);
                             }
                         }
                     }
                 }
-            }
-
-            if (!SULFURAS_HAND_OF_RAGNAROS.equals(items.get(i).getName()))
-            {
-                items.get(i).setSellIn(items.get(i).getSellIn() - 1);
-            }
-
-            if (items.get(i).getSellIn() < 0)
-            {
-                if (!AGED_BRIE.equals(items.get(i).getName()))
-                {
-                    if (!BACKSTAGE_PASSES.equals(items.get(i).getName()))
-                    {
-                        if (items.get(i).getQuality() > 0)
-                        {
-                            if (!SULFURAS_HAND_OF_RAGNAROS.equals(items.get(i).getName()))
-                            {
-                                items.get(i).setQuality(items.get(i).getQuality() - 1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        items.get(i).setQuality(items.get(i).getQuality() - items.get(i).getQuality());
+            } else {
+                if (item.getQuality() > 0) {
+                    if (!SULFURAS_HAND_OF_RAGNAROS.equals(item.getName())) {
+                        item.setQuality(item.getQuality() - 1);
                     }
                 }
-                else
-                {
-                    if (items.get(i).getQuality() < 50)
-                    {
-                        items.get(i).setQuality(items.get(i).getQuality() + 1);
+            }
+
+            if (!SULFURAS_HAND_OF_RAGNAROS.equals(item.getName())) {
+                item.setSellIn(item.getSellIn() - 1);
+            }
+
+            if (item.getSellIn() < 0) {
+                if (!AGED_BRIE.equals(item.getName())) {
+                    if (!BACKSTAGE_PASSES.equals(item.getName())) {
+                        if (item.getQuality() > 0) {
+                            if (!SULFURAS_HAND_OF_RAGNAROS.equals(item.getName())) {
+                                item.setQuality(item.getQuality() - 1);
+                            }
+                        }
+                    } else {
+                        item.setQuality(item.getQuality() - item.getQuality());
+                    }
+                } else {
+                    if (item.getQuality() < 50) {
+                        item.setQuality(item.getQuality() + 1);
                     }
                 }
             }
