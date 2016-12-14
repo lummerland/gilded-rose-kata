@@ -35,48 +35,48 @@ public class GildedRose {
 			if (SULFURAS_HAND_OF_RAGNAROS.equals(item.getName())) {
 				continue;
 			}
+			else if (AGED_BRIE.equals(item.getName())) {
+				increaseQuality(item);
 
-			// Besser werdende Produkte
-			if ((AGED_BRIE.equals(item.getName())) || BACKSTAGE_PASSES.equals(item.getName())) {
-				if (item.getQuality() < 50) {
-					item.setQuality(item.getQuality() + 1);
-
-					if (BACKSTAGE_PASSES.equals(item.getName())) {
-						if (item.getSellIn() < 11) {
-							increaseQuality(item);
-						}
-
-						if (item.getSellIn() < 6) {
-							increaseQuality(item);
-						}
-					}
-				}
-			} else {
-				if (item.getQuality() > 0) {
-					item.setQuality(item.getQuality() - 1);
-				}
-			}
-
-			item.setSellIn(item.getSellIn() - 1);
-
-			if (item.getSellIn() < 0) {
-				if (AGED_BRIE.equals(item.getName())) {
+				item.setSellIn(item.getSellIn() - 1);
+				if (item.getSellIn() < 0) {
 					increaseQuality(item);
-				} else if (BACKSTAGE_PASSES.equals(item.getName())) {
+				}
+			} else if (BACKSTAGE_PASSES.equals(item.getName())) {
+				increaseQuality(item);
+				if (item.getSellIn() < 11)
+					increaseQuality(item);
+
+				if (item.getSellIn() < 6)
+					increaseQuality(item);
+
+				item.setSellIn(item.getSellIn() - 1);
+				if (item.getSellIn() < 0) {
 					item.setQuality(0);
-				} else {
-					if (item.getQuality() > 0) {
-						item.setQuality(item.getQuality() - 1);
-					}
+				}
+			} else if (CONJURED_MANA_CAKE.equals(item.getName())) {
+				decreaseQuality(item);
+				decreaseQuality(item);
+			} else {
+				decreaseQuality(item);
+				item.setSellIn(item.getSellIn() - 1);
+				if (item.getSellIn() < 0) {
+					decreaseQuality(item);
 				}
 			}
 		}
 	}
 
+	private void decreaseQuality(Item item) {
+		if (item.getQuality() > 0) {
+			item.setQuality(item.getQuality() - 1);
+		}
+	}
+
 	private void increaseQuality(Item item) {
 		if (item.getQuality() < 50) {
-            item.setQuality(item.getQuality() + 1);
-        }
+			item.setQuality(item.getQuality() + 1);
+		}
 	}
 
 	boolean addItem(final Item e) {
