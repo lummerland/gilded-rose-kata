@@ -109,6 +109,11 @@ public class GildedRoseTest {
 		assertThat(shop.getItem(0).getSellIn(), is(5));
 	}
 
+	@Test
+	public void testThatQualityDecreasesTwiceAsFastForConjuredItems() throws Exception {
+		assertQualityAfterDays(new Item(GildedRose.CONJURED_MANA_CAKE, 5, 10), 1, 8);
+	}
+
 	public void assertQualityAfterDays(final Item item, int days, final int expectedQuality) {
 		shop.addItem(item);
 		for (int i = 0; i < days; i++)
@@ -117,6 +122,7 @@ public class GildedRoseTest {
 		assertThat(storedItem.getQuality(), is(expectedQuality));
 	}
 
-	// TODO: kosmetisches Refactoring für bequemeres Coden
-	// TODO: eigentliches Refactoring
+	// TODO: Entweder A: weitere Tests für Conjured Items schreiben, da hier noch Verhalten fehlt
+	//				  B: Unterschiedliche Items durch Produkte realisieren, Conjured Erbt von normalen Item
+	// TODO: Test Experimente: junit java 8 lambdas? Lesbarere assertQualityAfterDays Methode (Welcher Parameter macht was?)
 }
