@@ -52,6 +52,31 @@ public class GildedRoseTest {
 		assertQualityAfterOneDay(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20), 21);
 	}
 
+	@Test
+	public void testBackstagePasses10DaysLeft() throws Exception {
+		assertQualityAfterOneDay(new Item("Backstage passes to a TAFKAL80ETC concert", 10, 20), 22);
+	}
+
+	@Test
+	public void testBackstagePasses9DaysLeft() throws Exception {
+		assertQualityAfterOneDay(new Item("Backstage passes to a TAFKAL80ETC concert", 9, 20), 22);
+	}
+
+	@Test
+	public void testBackstagePasses5DaysOrLessLeft() throws Exception {
+		assertQualityAfterOneDay(new Item("Backstage passes to a TAFKAL80ETC concert", 5, 10), 13);
+	}
+
+	@Test
+	public void testBackstagePasses1DaysLeftShouldIncreaseQualityBy3() throws Exception {
+		assertQualityAfterOneDay(new Item("Backstage passes to a TAFKAL80ETC concert", 1, 10), 13);
+	}
+
+	@Test
+	public void testBackstagePassesLoseAllTheirValueAfterTheConcert() throws Exception {
+		assertQualityAfterOneDay(new Item("Backstage passes to a TAFKAL80ETC concert", 0, 10), 0);
+	}
+
 	public void assertQualityAfterOneDay(final Item item, final int expectedQuality) {
 		shop.addItem(item);
 		shop.updateQuality();
