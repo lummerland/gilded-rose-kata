@@ -3,6 +3,13 @@ import java.util.List;
 
 public class GildedRose {
 
+	public static final String AGED_BRIE = "Aged Brie";
+	public static final String DEXTERITY_VEST = "+5 Dexterity Vest";
+	public static final String ELIXIR_OF_THE_MONGOOSE = "Elixir of the Mongoose";
+	public static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
+	public static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+	public static final String CONJURED_MANA_CAKE = "Conjured Mana Cake";
+
 	private List<Item> items = new ArrayList<Item>();
 
 	/**
@@ -10,100 +17,73 @@ public class GildedRose {
 	 */
 	public static void main(String[] args) {
 
-        final GildedRose shop = new GildedRose();
-        System.out.println("OMGHAI!");
-		
-        shop.addItem(new Item("+5 Dexterity Vest", 10, 20));
-        shop.addItem(new Item("Aged Brie", 2, 0));
-        shop.addItem(new Item("Elixir of the Mongoose", 5, 7));
-        shop.addItem(new Item("Sulfuras, Hand of Ragnaros", 0, 80));
-        shop.addItem(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20));
-        shop.addItem(new Item("Conjured Mana Cake", 3, 6));
+		final GildedRose shop = new GildedRose();
+		System.out.println("OMGHAI!");
 
-        shop.updateQuality();
-}
+		shop.addItem(new Item(DEXTERITY_VEST, 10, 20));
+		shop.addItem(new Item(AGED_BRIE, 2, 0));
+		shop.addItem(new Item(ELIXIR_OF_THE_MONGOOSE, 5, 7));
+		shop.addItem(new Item(SULFURAS_HAND_OF_RAGNAROS, 0, 80));
+		shop.addItem(new Item(BACKSTAGE_PASSES, 15, 20));
+		shop.addItem(new Item(CONJURED_MANA_CAKE, 3, 6));
 
-    void updateQuality()
-    {
-        for (int i = 0; i < items.size(); i++)
-        {
-            if ((!"Aged Brie".equals(items.get(i).getName())) && !"Backstage passes to a TAFKAL80ETC concert".equals(items.get(i).getName()))
-            {
-                if (items.get(i).getQuality() > 0)
-                {
-                    if (!"Sulfuras, Hand of Ragnaros".equals(items.get(i).getName()))
-                    {
-                        items.get(i).setQuality(items.get(i).getQuality() - 1);
-                    }
-                }
-            }
-            else
-            {
-                if (items.get(i).getQuality() < 50)
-                {
-                    items.get(i).setQuality(items.get(i).getQuality() + 1);
+		shop.updateQuality();
+	}
 
-                    if ("Backstage passes to a TAFKAL80ETC concert".equals(items.get(i).getName()))
-                    {
-                        if (items.get(i).getSellIn() < 11)
-                        {
-                            if (items.get(i).getQuality() < 50)
-                            {
-                                items.get(i).setQuality(items.get(i).getQuality() + 1);
-                            }
-                        }
+	void updateQuality() {
+		for (Item item : items) {
+			if (SULFURAS_HAND_OF_RAGNAROS.equals(item.getName())) {
+				continue;
+			}
+			else if (AGED_BRIE.equals(item.getName())) {
+				increaseQuality(item);
 
-                        if (items.get(i).getSellIn() < 6)
-                        {
-                            if (items.get(i).getQuality() < 50)
-                            {
-                                items.get(i).setQuality(items.get(i).getQuality() + 1);
-                            }
-                        }
-                    }
-                }
-            }
+				item.setSellIn(item.getSellIn() - 1);
+				if (item.getSellIn() < 0) {
+					increaseQuality(item);
+				}
+			} else if (BACKSTAGE_PASSES.equals(item.getName())) {
+				increaseQuality(item);
+				if (item.getSellIn() < 11)
+					increaseQuality(item);
 
-            if (!"Sulfuras, Hand of Ragnaros".equals(items.get(i).getName()))
-            {
-                items.get(i).setSellIn(items.get(i).getSellIn() - 1);
-            }
+				if (item.getSellIn() < 6)
+					increaseQuality(item);
 
-            if (items.get(i).getSellIn() < 0)
-            {
-                if (!"Aged Brie".equals(items.get(i).getName()))
-                {
-                    if (!"Backstage passes to a TAFKAL80ETC concert".equals(items.get(i).getName()))
-                    {
-                        if (items.get(i).getQuality() > 0)
-                        {
-                            if (!"Sulfuras, Hand of Ragnaros".equals(items.get(i).getName()))
-                            {
-                                items.get(i).setQuality(items.get(i).getQuality() - 1);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        items.get(i).setQuality(items.get(i).getQuality() - items.get(i).getQuality());
-                    }
-                }
-                else
-                {
-                    if (items.get(i).getQuality() < 50)
-                    {
-                        items.get(i).setQuality(items.get(i).getQuality() + 1);
-                    }
-                }
-            }
-        }
-    }
+				item.setSellIn(item.getSellIn() - 1);
+				if (item.getSellIn() < 0) {
+					item.setQuality(0);
+				}
+			} else if (CONJURED_MANA_CAKE.equals(item.getName())) {
+				decreaseQuality(item);
+				decreaseQuality(item);
+			} else {
+				decreaseQuality(item);
+				item.setSellIn(item.getSellIn() - 1);
+				if (item.getSellIn() < 0) {
+					decreaseQuality(item);
+				}
+			}
+		}
+	}
 
-    boolean addItem(final Item e) {
-        return items.add(e);
-    }
+	private void decreaseQuality(Item item) {
+		if (item.getQuality() > 0) {
+			item.setQuality(item.getQuality() - 1);
+		}
+	}
 
-    public Item getItem(final int index) {
-        return items.get(index);
-    }
+	private void increaseQuality(Item item) {
+		if (item.getQuality() < 50) {
+			item.setQuality(item.getQuality() + 1);
+		}
+	}
+
+	boolean addItem(final Item e) {
+		return items.add(e);
+	}
+
+	public Item getItem(final int index) {
+		return items.get(index);
+	}
 }
